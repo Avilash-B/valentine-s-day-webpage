@@ -50,7 +50,7 @@ const AFFIRMATION_JOKES = [
 ]
 
 const GIFS = [
-  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHZ4ZnBxbXpqMnV5Z3RiMXBkMWx4dmd4a3FiNWNyYnl6YjZ4OWh4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif",
+  "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHVzdTZwaHRkeXQyMXo2Y3owdWNlNXdnYWRxOWxseWIwb3Ftb3E1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/blSTtZehjAZ8I/giphy.gif",
 ]
 
 export function ValentineCard() {
@@ -169,7 +169,7 @@ export function ValentineCard() {
         <div className="text-center mb-8">
           <div className="text-6xl mb-4 animate-pulse">💝</div>
           <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2 text-balance">
-            Will you be my Valentine?
+            Suruchi, will you be my Valentine?
           </h1>
           <p className="text-muted-foreground">
             I promise to make it worth your while! 💕
