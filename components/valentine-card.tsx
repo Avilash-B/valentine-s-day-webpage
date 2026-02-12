@@ -49,10 +49,6 @@ const AFFIRMATION_JOKES = [
   "Your heart knows the answer! 💝",
 ]
 
-const GIFS = [
-  "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHVzdTZwaHRkeXQyMXo2Y3owdWNlNXdnYWRxOWxseWIwb3Ftb3E1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/blSTtZehjAZ8I/giphy.gif",
-]
-
 export function ValentineCard() {
   const [accepted, setAccepted] = useState(false)
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 })
@@ -63,6 +59,7 @@ export function ValentineCard() {
   const [affirmationJoke, setAffirmationJoke] = useState("")
   const [showAffirmation, setShowAffirmation] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [nextFibTarget, setNextFibTarget] = useState(1)
   const fibSequenceRef = useRef({ prev: 1, current: 1 })
 
@@ -84,7 +81,7 @@ export function ValentineCard() {
       setCurrentJoke(randomJoke)
       setShowJoke(true)
       setJokeColorIndex((prev) => (prev + 1) % jokeColors.length)
-      
+
       // Calculate next Fibonacci number
       const { prev, current } = fibSequenceRef.current
       const nextFib = prev + current
@@ -93,20 +90,41 @@ export function ValentineCard() {
     }
   }, [moveCount, nextFibTarget, jokeColors.length])
 
+  // Ensure video plays when accepted
+  useEffect(() => {
+    if (accepted && videoRef.current) {
+      const video = videoRef.current
+
+      // Try to play the video
+      const playPromise = video.play()
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log('Video started playing')
+          })
+          .catch((error) => {
+            console.error('Video autoplay failed:', error)
+            // If autoplay fails, we could show controls or a play button
+          })
+      }
+    }
+  }, [accepted])
+
   const moveNoButton = useCallback(() => {
     if (!containerRef.current) return
-    
+
     const container = containerRef.current.getBoundingClientRect()
     const buttonWidth = 100
     const buttonHeight = 44
-    
+
     // Calculate random position within bounds
     const maxX = Math.min(container.width - buttonWidth, 200)
     const maxY = Math.min(container.height - buttonHeight, 150)
-    
+
     const newX = (Math.random() - 0.5) * maxX * 2
     const newY = (Math.random() - 0.5) * maxY * 2
-    
+
     setNoButtonPosition({ x: newX, y: newY })
     setMoveCount((prev) => prev + 1)
   }, [])
@@ -138,22 +156,22 @@ export function ValentineCard() {
             <p className="text-xl text-muted-foreground mb-8">
               I knew you had great taste! 💕
             </p>
-            
+
             <div className="grid grid-cols-1 gap-4">
-              {GIFS.map((gif, index) => (
-                <div
-                  key={index}
-                  className="rounded-xl overflow-hidden border-2 border-primary/20 shadow-lg"
+              <div className="relative w-full aspect-video overflow-hidden rounded-lg"  >
+                <video
+                  src="/sunset.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
                 >
-                  <img
-                    src={gif || "/placeholder.svg"}
-                    alt={`Celebration gif ${index + 1}`}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              ))}
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             </div>
-            
+
             <div className="mt-8 text-2xl animate-pulse">
               💖 Happy Valentine&apos;s Day! 💖
             </div>
@@ -177,7 +195,7 @@ export function ValentineCard() {
         </div>
 
         {showJoke && (
-          <div 
+          <div
             key={jokeColorIndex}
             className={`mb-6 p-4 rounded-xl border-2 animate-in fade-in slide-in-from-top-2 duration-300 ${jokeColors[jokeColorIndex]}`}
           >
