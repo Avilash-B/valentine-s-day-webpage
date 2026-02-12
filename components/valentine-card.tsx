@@ -158,8 +158,9 @@ export function ValentineCard() {
             </p>
 
             <div className="grid grid-cols-1 gap-4">
-              <div className="relative w-full aspect-video overflow-hidden rounded-lg"  >
+              <div className="relative w-full overflow-hidden rounded-lg bg-black" style={{ aspectRatio: '495/554' }}>
                 <video
+                  ref={videoRef}
                   src="/sunset.mp4"
                   autoPlay
                   loop
