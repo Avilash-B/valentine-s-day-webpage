@@ -59,7 +59,6 @@ export function ValentineCard() {
   const [affirmationJoke, setAffirmationJoke] = useState("")
   const [showAffirmation, setShowAffirmation] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const [nextFibTarget, setNextFibTarget] = useState(1)
   const fibSequenceRef = useRef({ prev: 1, current: 1 })
 
@@ -89,27 +88,6 @@ export function ValentineCard() {
       setNextFibTarget(nextFib)
     }
   }, [moveCount, nextFibTarget, jokeColors.length])
-
-  // Ensure video plays when accepted
-  useEffect(() => {
-    if (accepted && videoRef.current) {
-      const video = videoRef.current
-
-      // Try to play the video
-      const playPromise = video.play()
-
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log('Video started playing')
-          })
-          .catch((error) => {
-            console.error('Video autoplay failed:', error)
-            // If autoplay fails, we could show controls or a play button
-          })
-      }
-    }
-  }, [accepted])
 
   const moveNoButton = useCallback(() => {
     if (!containerRef.current) return
@@ -158,18 +136,12 @@ export function ValentineCard() {
             </p>
 
             <div className="grid grid-cols-1 gap-4">
-              <div className="relative w-full overflow-hidden rounded-lg bg-black" style={{ aspectRatio: '495/554' }}>
-                <video
-                  ref={videoRef}
-                  src="/sunset.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
-                >
-                  Your browser does not support the video tag.
-                </video>
+              <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: '498/554' }}>
+                <img
+                  src="/sunset.gif"
+                  alt="Beautiful sunset animation"
+                  className="w-full h-full object-cover rounded-lg"
+                />
               </div>
             </div>
 
